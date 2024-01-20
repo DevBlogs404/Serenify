@@ -10,22 +10,39 @@ import {
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+  useSharedValue,
+  withSpring,
+  FadeIn,
+  FadeOut,
+} from 'react-native-reanimated';
+
 const {width, height} = Dimensions.get('window');
 
 const SplashScreen = () => {
   const navigation = useNavigation();
 
+  // const animatedStyle = useAnimatedStyle(() => {
+  //   return {};
+  // });
+
   useEffect(() => {
     const timeout = setTimeout(
       () => navigation.navigate('OnboardingScreen'),
-      3000,
+      2000,
     );
 
     return () => clearTimeout(timeout);
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={styles.container}
+      entering={FadeIn.duration(1000)}
+      exiting={FadeOut.duration(1000)}>
       <Image
         source={require('../../assets/images/bg.png')}
         style={styles.image}
@@ -34,7 +51,7 @@ const SplashScreen = () => {
         source={require('../../assets/images/Logo.png')}
         style={styles.logo}
       />
-    </View>
+    </Animated.View>
   );
 };
 

@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,21 +7,44 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 const {width, height} = Dimensions.get('window');
 
 const OnBoardingScreen = () => {
+  const opacity = useSharedValue(0);
+
+  const fadeInStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+    };
+  });
+
+  useEffect(() => {
+    opacity.value = withTiming(1, {
+      duration: 2000,
+      easing: Easing.inOut(Easing.ease),
+    });
+    // opacity.value = withSpring(1, {damping: 2, stiffness: 80});
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image
         source={require('../../assets/images/bg.png')}
         style={styles.image}
       />
-      <Image
+      <Animated.Image
         source={require('../../assets/images/Logo.png')}
-        style={styles.logo}
+        style={[styles.logo, fadeInStyle]}
       />
-      <View style={styles.text}>
+      <Animated.View style={[styles.text, fadeInStyle]}>
         <Text style={styles.title}>WELCOME</Text>
         <Text style={styles.desc}>
           Do meditation. Stay focused.Live a healthy life.
@@ -31,7 +55,7 @@ const OnBoardingScreen = () => {
         <Text style={styles.footerText}>
           Don't have an Account? <Text style={{fontWeight: '900'}}>SignUp</Text>
         </Text>
-      </View>
+      </Animated.View>
     </View>
   );
 };

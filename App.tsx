@@ -10,7 +10,7 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="SplashScreen"
-        screenOptions={{headerShown: false, animation: 'slide_from_left'}}>
+        screenOptions={{headerShown: false}}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="OnboardingScreen" component={OnBoardingScreen} />
       </Stack.Navigator>
